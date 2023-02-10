@@ -1,0 +1,30 @@
+name: Java CI
+on: [push]
+jobs:
+  job-name:
+    runs-on: ubuntu-latest
+- uses: actions/checkout@v2
+uses:
+  jenkinsci/jfr-static-image-action@master
+with:
+  command: run
+  jenkinsfile: Jenkinsfile
+  pluginstxt: plugins.txt
+
+  name: Java CI
+on: [push]
+jobs:
+  jenkins-static-image-pipeline:
+    runs-on: ubuntu-latest
+    name: jenkins-static-image-pipeline-test
+    steps:
+      - uses: actions/checkout@v2
+      # jfr-static-image-action
+      - name: Jenkins pipeline with the static image
+        id: jenkins_pipeline_image
+        uses:
+          jenkinsci/jfr-static-image-action@master
+        with:
+          command: run
+          jenkinsfile: Jenkinsfile
+          pluginstxt: plugins.txt
