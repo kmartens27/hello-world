@@ -1,30 +1,21 @@
 name: Java CI
 on: [push]
 jobs:
-  job-name:
+  jenkins-container-pipeline:
     runs-on: ubuntu-latest
-- uses: actions/checkout@v2
-uses:
-  jenkinsci/jfr-static-image-action@master
-with:
-  command: run
-  jenkinsfile: Jenkinsfile
-  pluginstxt: plugins.txt
-
-  name: Java CI
-on: [push]
-jobs:
-  jenkins-static-image-pipeline:
-    runs-on: ubuntu-latest
-    name: jenkins-static-image-pipeline-test
+    name: jenkins-prebuilt-container-test
+    container:
+      # prerequisite
+      image: ghcr.io/jenkinsci/jenkinsfile-runner:master
     steps:
       - uses: actions/checkout@v2
-      # jfr-static-image-action
-      - name: Jenkins pipeline with the static image
-        id: jenkins_pipeline_image
+      # jfr-container-action
+      - name: Jenkins pipeline in the container
+        id: jenkins_pipeline_container
         uses:
-          jenkinsci/jfr-static-image-action@master
+          jenkinsci/jfr-container-action@master
         with:
           command: run
           jenkinsfile: Jenkinsfile
-          pluginstxt: plugins.txts
+          pluginstxt: plugins.txt
+          jcasc: jcasc.yml
